@@ -1,6 +1,12 @@
+import uuid from "react-native-uuid";
 import { OptionProp } from "../options-store";
 
-export function add(options: OptionProp[], newOption: OptionProp) {
+export function add(options: OptionProp[], newOptionText: string) {
+  const newOption: OptionProp = {
+    active: true,
+    text: newOptionText,
+    id: uuid.v4().toString(),
+  };
   return [...options, newOption];
 }
 

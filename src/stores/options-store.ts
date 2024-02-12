@@ -11,7 +11,7 @@ export type OptionProp = {
 
 type StateProps = {
   options: OptionProp[];
-  add: (option: OptionProp) => void;
+  add: (optionText: string) => void;
   remove: (optionId: string) => void;
 };
 
@@ -19,9 +19,9 @@ export const useOptionsStore = create(
   persist<StateProps>(
     (set) => ({
       options: [],
-      add: (option: OptionProp) =>
+      add: (optionText: string) =>
         set((state) => ({
-          options: optionInMemory.add(state.options, option),
+          options: optionInMemory.add(state.options, optionText),
         })),
       remove: (optionId: string) =>
         set((state) => ({
