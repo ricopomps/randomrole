@@ -2,7 +2,6 @@ import { OptionProp, useOptionsStore } from "@/stores/options-store";
 import { useState } from "react";
 import {
   ActivityIndicator,
-  Alert,
   Image,
   Text,
   TouchableOpacity,
@@ -13,7 +12,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [timeoutRef, setTimoutRef] = useState<NodeJS.Timeout | null>(null);
   const [selectedRole, setSelectedRole] = useState<OptionProp | null>(null);
-  const { options, selectRandomRole } = useOptionsStore();
+  const { selectRandomRole } = useOptionsStore();
 
   const startTimeout = () => {
     setLoading(true);
@@ -30,12 +29,11 @@ export default function Home() {
   };
 
   const handleSelectRandomRole = () => {
-    if (options.length === 0) {
-      return Alert.alert("Opções", "Adicione ao menos uma opção primeiro");
-    }
-    startTimeout();
     const randomRole = selectRandomRole();
-    setSelectedRole(randomRole ?? null);
+    if (!randomRole) return;
+
+    startTimeout();
+    setSelectedRole(randomRole);
   };
 
   return (
