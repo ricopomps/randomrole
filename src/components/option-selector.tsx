@@ -1,4 +1,5 @@
 import { OptionSelectorProp, useOptionsStore } from "@/stores/options-store";
+import { cn } from "@/utils/functions/cs";
 import { Feather } from "@expo/vector-icons";
 import { useState } from "react";
 import { Alert, Text, TouchableOpacity, View } from "react-native";
@@ -10,10 +11,15 @@ interface OptionSelectorComponentProp {
 }
 
 export default function OptionSelector({
-  optionSelector: { title, id },
+  optionSelector: { title, id, active },
 }: OptionSelectorComponentProp) {
   const [openAddModal, setOpenModal] = useState(false);
-  const { add, removeSelector } = useOptionsStore();
+  const {
+    add,
+    removeSelector,
+    activateOptionSelector,
+    deactivateOptionSelector,
+  } = useOptionsStore();
 
   const handleAddClick = () => {
     setOpenModal(true);
@@ -35,10 +41,34 @@ export default function OptionSelector({
     );
   };
 
+  const handleActivate = () => {
+    if (active) {
+      deactivateOptionSelector(id);
+    } else {
+      activateOptionSelector(id);
+    }
+  };
+
   return (
-    <View className="flex-row items-center justify-between border-b border-slate-700 mb-3">
+    <View
+      className={cn(
+        "flex-row items-center justify-between border-b border-slate-700 mb-3 px-2 rounded-md",
+        !active && "bg-slate-700"
+      )}
+    >
       <Text className="text-xl text-white font-heading mt-8 mb-3">{title}</Text>
       <View className="flex-row items-center justify-between gap-4">
+        <TouchableOpacity
+          className="relative"
+          activeOpacity={0.7}
+          onPress={handleActivate}
+        >
+          <Feather
+            name={active ? "eye" : "eye-off"}
+            color={colors.white}
+            size={24}
+          />
+        </TouchableOpacity>
         <TouchableOpacity
           className="relative"
           activeOpacity={0.7}

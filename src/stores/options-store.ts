@@ -23,11 +23,16 @@ type StateProps = {
   addSelector: (title: string) => void;
   removeSelector: (optionSelectorToRemoveId: string) => void;
   clear: () => void;
+  activateOption: (optionId: string, optionSelectorId: string) => void;
+  deactivateOption: (optionId: string, optionSelectorId: string) => void;
+  activateOptionSelector: (optionSelectorId: string) => void;
+  deactivateOptionSelector: (optionSelectorId: string) => void;
+  selectRandomRole: () => OptionProp | void;
 };
 
 export const useOptionsStore = create(
   persist<StateProps>(
-    (set) => ({
+    (set, get) => ({
       options: [],
       add: (optionText: string, optionSelectorId: string) =>
         set((state) => ({
@@ -60,6 +65,40 @@ export const useOptionsStore = create(
         set(() => ({
           options: optionInMemory.clear(),
         })),
+      activateOption: (optionId: string, optionSelectorId: string) =>
+        set((state) => ({
+          options: optionInMemory.activateOption(
+            state.options,
+            optionId,
+            optionSelectorId
+          ),
+        })),
+      deactivateOption: (optionId: string, optionSelectorId: string) =>
+        set((state) => ({
+          options: optionInMemory.deactivateOption(
+            state.options,
+            optionId,
+            optionSelectorId
+          ),
+        })),
+      activateOptionSelector: (optionSelectorId: string) =>
+        set((state) => ({
+          options: optionInMemory.activateOptionSelector(
+            state.options,
+            optionSelectorId
+          ),
+        })),
+      deactivateOptionSelector: (optionSelectorId: string) =>
+        set((state) => ({
+          options: optionInMemory.deactivateOptionSelector(
+            state.options,
+            optionSelectorId
+          ),
+        })),
+      selectRandomRole: () => {
+        const options = get().options;
+        return optionInMemory.selectRandomRole(options);
+      },
     }),
     {
       name: "randomrole:options",

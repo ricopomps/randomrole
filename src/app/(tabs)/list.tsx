@@ -15,7 +15,6 @@ export default function List() {
       return Alert.alert("Pedido", "Informe os dados da opção");
     }
     addSelector(input);
-    // add(newOption);
     setInput("");
   }
 
@@ -29,6 +28,7 @@ export default function List() {
         blurOnSubmit
         onSubmitEditing={handleSubmit}
         returnKeyType="next"
+        className="mb-3"
       />
       <SectionList
         sections={options}

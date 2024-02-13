@@ -13,7 +13,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [timeoutRef, setTimoutRef] = useState<NodeJS.Timeout | null>(null);
   const [selectedRole, setSelectedRole] = useState<OptionProp | null>(null);
-  const { options } = useOptionsStore();
+  const { options, selectRandomRole } = useOptionsStore();
 
   const startTimeout = () => {
     setLoading(true);
@@ -29,13 +29,13 @@ export default function Home() {
     setLoading(false);
   };
 
-  const selectRandomRole = () => {
+  const handleSelectRandomRole = () => {
     if (options.length === 0) {
       return Alert.alert("Opções", "Adicione ao menos uma opção primeiro");
     }
     startTimeout();
-    const randomRole = options[Math.floor(Math.random() * options.length)];
-    setSelectedRole(randomRole);
+    const randomRole = selectRandomRole();
+    setSelectedRole(randomRole ?? null);
   };
 
   return (
@@ -48,7 +48,7 @@ export default function Home() {
       )}
       <TouchableOpacity
         activeOpacity={loading ? 0.8 : 1}
-        onPress={loading ? cancelLoading : selectRandomRole}
+        onPress={loading ? cancelLoading : handleSelectRandomRole}
         className="h-fit w-full z-10 flex-1 justify-center items-center rounded-lg"
       >
         <Image
