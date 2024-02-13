@@ -41,9 +41,10 @@ export default function Home() {
   return (
     <View className="flex-1 justify-center items-center bg-[#072630]">
       {!loading && selectedRole && (
-        <Text className="text-white text-2xl pt-8">
-          Random Role: {selectedRole.text}
-        </Text>
+        <>
+          <Text className="text-white text-3xl pt-8">Random Role:</Text>
+          <Text className="text-white text-2xl">{selectedRole.text}</Text>
+        </>
       )}
       <TouchableOpacity
         activeOpacity={loading ? 0.8 : 1}

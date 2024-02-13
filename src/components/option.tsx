@@ -5,17 +5,19 @@ import colors from "tailwindcss/colors";
 
 interface OptionComponentProp {
   option: OptionProp;
+  optionSelectorId: string;
 }
 
 export default function Option({
   option: { text, active, id },
+  optionSelectorId,
 }: OptionComponentProp) {
   const { remove } = useOptionsStore();
 
   function handleRemove() {
     Alert.alert("Remover", `Deseja remover a opção '${text}'?`, [
       { text: "Cancelar" },
-      { text: "Remover", onPress: () => remove(id) },
+      { text: "Remover", onPress: () => remove(id, optionSelectorId) },
     ]);
   }
 

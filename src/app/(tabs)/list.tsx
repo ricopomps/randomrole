@@ -1,20 +1,22 @@
 import Header from "@/components/header";
 import Input from "@/components/input";
 import Option from "@/components/option";
+import OptionSelector from "@/components/option-selector";
 import { useOptionsStore } from "@/stores/options-store";
 import { useState } from "react";
-import { Alert, SectionList, Text, View } from "react-native";
+import { Alert, SectionList, View } from "react-native";
 
 export default function List() {
-  const [newOption, setNewOption] = useState("");
-  const { options, add } = useOptionsStore();
+  const [input, setInput] = useState("");
+  const { options, add, clear, addSelector } = useOptionsStore();
 
   function handleSubmit() {
-    if (newOption.trim().length === 0) {
+    if (input.trim().length === 0) {
       return Alert.alert("Pedido", "Informe os dados da opção");
     }
-    add(newOption);
-    setNewOption("");
+    addSelector(input);
+    // add(newOption);
+    setInput("");
   }
 
   return (
@@ -22,19 +24,21 @@ export default function List() {
       <Header title="Adicionar opção" handleSubmit={handleSubmit} />
       <Input
         placeholder="Digite a opção"
-        onChangeText={setNewOption}
-        value={newOption}
+        onChangeText={setInput}
+        value={input}
         blurOnSubmit
+        onSubmitEditing={handleSubmit}
+        returnKeyType="next"
       />
       <SectionList
-        sections={[{ data: options, title: "Opções" }]}
+        sections={options}
         keyExtractor={(item) => item.id}
         stickySectionHeadersEnabled={false}
-        renderItem={({ item }) => <Option option={item} />}
-        renderSectionHeader={({ section: { title } }) => (
-          <Text className="text-xl text-white font-heading mt-8 mb-3">
-            {title}
-          </Text>
+        renderItem={({ item, section }) => (
+          <Option option={item} optionSelectorId={section.id} />
+        )}
+        renderSectionHeader={({ section }) => (
+          <OptionSelector optionSelector={section} />
         )}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 100 }}
