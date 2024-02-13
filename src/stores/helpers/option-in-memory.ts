@@ -166,3 +166,17 @@ export function selectRandomRole(options: OptionSelectorProp[]) {
 
   return selectedOption;
 }
+
+export function activateAll(options: OptionSelectorProp[]) {
+  options.forEach((optionSelector) =>
+    activateOptionSelector(options, optionSelector.id)
+  );
+  return options;
+}
+
+export function deactivateAll(options: OptionSelectorProp[]) {
+  options.forEach((optionSelector) =>
+    deactivateOptionSelector(options, optionSelector.id)
+  );
+  return options;
+}

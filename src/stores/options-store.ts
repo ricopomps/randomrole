@@ -28,6 +28,8 @@ type StateProps = {
   activateOptionSelector: (optionSelectorId: string) => void;
   deactivateOptionSelector: (optionSelectorId: string) => void;
   selectRandomRole: () => OptionProp | void;
+  activateAll: () => void;
+  deactivateAll: () => void;
 };
 
 export const useOptionsStore = create(
@@ -99,6 +101,14 @@ export const useOptionsStore = create(
         const options = get().options;
         return optionInMemory.selectRandomRole(options);
       },
+      activateAll: () =>
+        set((state) => ({
+          options: optionInMemory.activateAll(state.options),
+        })),
+      deactivateAll: () =>
+        set((state) => ({
+          options: optionInMemory.deactivateAll(state.options),
+        })),
     }),
     {
       name: "randomrole:options",
